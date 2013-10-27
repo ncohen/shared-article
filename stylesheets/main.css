@@ -1,0 +1,113 @@
+body{
+	margin:25px;
+}
+
+.venue_info {
+	margin:0px;
+	padding:0px;
+	border:0px;
+}
+
+#venue_label, #rating_label, #address_label {
+	font-weight: bold;
+}
+
+.weatherTop {
+	position:absolute;
+	background-color:white;
+	width:300px;
+}
+
+#weather {
+	position:absolute;
+
+}
+
+#date {
+	margin-bottom:5px;
+}
+
+#high {
+	margin-bottom:5px;
+	float:right;
+	margin-left:5px;
+}
+
+p.prediction {
+	text-align:left;
+	font-size:.75em;
+}
+
+.weatherItemPrecip {
+	float:right;
+	font-size:.8em;
+}
+
+
+.weatherItem {
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:0px;
+	padding-bottom:0px;
+	text-align:center;
+	font-size:.8em;
+	
+	
+}
+
+.dayWeather {
+	margin:10px;
+	margin-bottom:25px;
+	width:300px;
+}
+
+
+.image {
+	width:300px; 
+	height:300px;
+}
+
+.commenter {
+	font-weight: bold;
+}
+
+.nav_item {
+	margin-right:25px;
+	display:inline;
+}
+
+.share {
+	margin-bottom:25px;
+	background-color: white;
+}
+
+.share_item {
+	margin:.5px;
+}
+
+.feed_sharer {
+
+}
+
+#timestamp{
+	font-style: italic;
+}
+
+#participants, .comments {
+	margin-top: 50px;
+}
+
+#comment_input_label {
+	vertical-align: top;
+}
+
+.comment_submit {
+	left:150px;
+}
+.participant {
+	margin-top: 0px;
+}
+
+#comment_input_text {
+	display: inherit;
+}
