@@ -13,7 +13,6 @@ import calendar
 import email
 import json
 
-
 from google.appengine.api import users
 from google.appengine.api import images
 from google.appengine.ext import blobstore
