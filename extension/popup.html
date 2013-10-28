@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        min-width: 357px;
+        overflow-x: hidden;
+      }
+
+      img {
+        margin: 5px;
+        border: 2px solid black;
+        vertical-align: middle;
+        width: 75px;
+        height: 75px;
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+ 
+     -->
+  <script src="popup.js"></script>
+ <script type="text/javascript">
+
+</script>
+  </head>
+  <body>
+
+  <h1>Share Article</h1>
+  <div class= "input_forms" id="outing_form">
+  <form action="/create_new_outing" id="form" enctype="multipart/form-data" method="post">
+      <textarea autofocus placeholder="link" name="url" id="tags" rows="1" cols="50"></textarea><br>
+      <textarea placeholder="comment" name="post_text" id="post_text" rows="1" cols="50"></textarea><br>
+      <textarea placeholder="share with (comma separated)" id="share_participants" name="participants" rows="1" cols="50"></textarea>
+    <input name="creator" id="creator" type="hidden" value="{{ user_email|escape }}">
+    </input>
+    <div><input type="submit" id="submit" value="Share" /></div>
+   </form>
+  </div>
+
+  </body>
+</html>
+
