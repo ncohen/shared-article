@@ -208,7 +208,7 @@ class UploadOuting(webapp2.RequestHandler):
 			# self.redirect('/outing/' + urllib.urlencode({'id': key}))	
 			self.redirect('/outing/' + str(key))
 		else:
-			self.redirect('/')
+			self.redirect('/extension')
 
 class OutingDirect(webapp2.RequestHandler):
 	def get(self, outing_id):
@@ -351,6 +351,15 @@ class SetLatestActivity(webapp2.RequestHandler):
 			share.latest_activity = share.timestamp
 			share.put()
 
+class ExtensionSignIn(webapp2.RequestHandler):
+	def get(self):
+		user = users.get_current_user()
+		if user:
+			template = jinja_environment.get_template('extension_signin.html')
+			self.response.out.write(template.render())
+		else:
+			self.redirect(users.create_login_url(self.request.uri))
+
 app = webapp2.WSGIApplication([('/', MainPage),
 							('/create', CreateOuting),
 							('/create_new_outing', UploadOuting),
@@ -358,6 +367,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							('/outing/(\S+)', OutingDirect),
 							('/login/(\S+)', Login),
 							('/migrate', CommentMigration),
+							('/extension', ExtensionSignIn),
 							('/activityreset', SetLatestActivity),
 							(LogSenderHandler.mapping())],
                               debug=True)
