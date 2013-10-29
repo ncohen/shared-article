@@ -156,55 +156,59 @@ class CreateOuting(webapp2.RequestHandler):
 
 class UploadOuting(webapp2.RequestHandler):
 	def post(self):
-		outings = self.request.get('outings')
-		outing = ProposedOuting(parent=outing_key(outings))
-		link = self.request.get('url')
-		proposed_participants = self.request.get('participants')
-		originator = users.get_current_user()
-		logging.info("originator = " + str(originator))
-		logging.info('len = ' + str(len(proposed_participants)))
-		timestamp = datetime.datetime.now()
-		utc_timestamp = convert_timestamp(timestamp)
-		outing.timestamp = timestamp
-		outing.utc_timestamp = utc_timestamp
-		outing.latest_activity = timestamp
-		outing.comment_count = 0
-		outing.link = link
-		outing.post_text = self.request.get('post_text')
-		outing.participants = proposed_participants.split(",")
-		outing.originator = originator
+		user = users.get_current_user()
+		if user:
+			outings = self.request.get('outings')
+			outing = ProposedOuting(parent=outing_key(outings))
+			link = self.request.get('url')
+			proposed_participants = self.request.get('participants')
+			originator = users.get_current_user()
+			logging.info("originator = " + str(originator))
+			logging.info('len = ' + str(len(proposed_participants)))
+			timestamp = datetime.datetime.now()
+			utc_timestamp = convert_timestamp(timestamp)
+			outing.timestamp = timestamp
+			outing.utc_timestamp = utc_timestamp
+			outing.latest_activity = timestamp
+			outing.comment_count = 0
+			outing.link = link
+			outing.post_text = self.request.get('post_text')
+			outing.participants = proposed_participants.split(",")
+			outing.originator = originator
 
-		for participant in outing.participants:
-			logging.info('participant:' + participant)
+			for participant in outing.participants:
+				logging.info('participant:' + participant)
 
-		key = outing.put()
-		key = str(key)
-		outing.outing_id = key
+			key = outing.put()
+			key = str(key)
+			outing.outing_id = key
 
-		# extract title of article
-		title = extract.extract_title(link)
-		outing.article_title = str(title)
-		try:
-			publisher = extract.extract_publisher(link)
-			outing.publisher = str(publisher)
-			images = extract.extract_images(link)
-			logging.info(images)
-		except:
-			outing.publisher = 'false'
+			# extract title of article
+			title = extract.extract_title(link)
+			outing.article_title = str(title)
+			try:
+				publisher = extract.extract_publisher(link)
+				outing.publisher = str(publisher)
+				images = extract.extract_images(link)
+				logging.info(images)
+			except:
+				outing.publisher = 'false'
 
-		outing.put()
+			outing.put()
 
-		# prepare email and send
-		message = mail.EmailMessage()
-		message.sender= "Article Share <messages@singlecalendar.appspotmail.com>"
-		message.to = proposed_participants
-		message.subject = str(originator) + " shared an article"
-		message.body = "Check out this article and share your thoughts: http://singlecalendar.appspot.com/outing/" + str(key)
-		message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
-		message.send()
+			# prepare email and send
+			message = mail.EmailMessage()
+			message.sender= "Article Share <messages@singlecalendar.appspotmail.com>"
+			message.to = proposed_participants
+			message.subject = str(originator) + " shared an article"
+			message.body = "Check out this article and share your thoughts: http://singlecalendar.appspot.com/outing/" + str(key)
+			message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
+			message.send()
 
-		# self.redirect('/outing/' + urllib.urlencode({'id': key}))	
-		self.redirect('/outing/' + str(key))	
+			# self.redirect('/outing/' + urllib.urlencode({'id': key}))	
+			self.redirect('/outing/' + str(key))
+		else:
+			self.redirect('/')
 
 class OutingDirect(webapp2.RequestHandler):
 	def get(self, outing_id):
