@@ -22,9 +22,11 @@
       - Policy documentation[1] for details and explanation.
       -
       - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
- 
      -->
-  <script src="popup.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=init">
+</script>
+  <script src="popup.js"></script> 
+
  <script type="text/javascript">
 
 </script>
@@ -32,8 +34,11 @@
   <body>
 
   <h1>Share Article</h1>
+<!--
+  <a href="#" onclick="auth();" id="signinButton">Sign in!</a>
+  -->
   <div class= "input_forms" id="outing_form">
-  <form action="/create_new_outing" id="form" enctype="multipart/form-data" method="post">
+  <form action="http://singlecalendar.appspot.com/create_new_outing" id="form" enctype="multipart/form-data" method="post">
       <textarea autofocus placeholder="link" name="url" id="tags" rows="1" cols="50"></textarea><br>
       <textarea placeholder="comment" name="post_text" id="post_text" rows="1" cols="50"></textarea><br>
       <textarea placeholder="share with (comma separated)" id="share_participants" name="participants" rows="1" cols="50"></textarea>

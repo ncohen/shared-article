@@ -161,6 +161,7 @@ class UploadOuting(webapp2.RequestHandler):
 		link = self.request.get('url')
 		proposed_participants = self.request.get('participants')
 		originator = users.get_current_user()
+		logging.info("originator = " + str(originator))
 		logging.info('len = ' + str(len(proposed_participants)))
 		timestamp = datetime.datetime.now()
 		utc_timestamp = convert_timestamp(timestamp)
