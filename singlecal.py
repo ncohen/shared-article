@@ -41,6 +41,7 @@ class ProposedOuting(db.Model):
 	utc_timestamp = db.IntegerProperty()
 	latest_activity = db.DateTimeProperty()
 	comment_count = db.IntegerProperty()
+	main_content = db.TextProperty()
 
 def outing_key(outing=None):
 	return db.Key.from_path('outing', outing or 'default_name')
@@ -184,15 +185,18 @@ class UploadOuting(webapp2.RequestHandler):
 			outing.outing_id = key
 
 			# extract title of article
-			title = extract.extract_title(link)
+			obj = extract.extract_content(link)
+			title = obj['title']
 			outing.article_title = str(title)
-			try:
-				publisher = extract.extract_publisher(link)
-				outing.publisher = str(publisher)
-				images = extract.extract_images(link)
-				logging.info(images)
-			except:
-				outing.publisher = 'false'
+			publisher = obj['publisher']
+			outing.publisher = str(publisher)
+			main_content = obj['main_content']
+			logging.info(main_content)
+			outing.main_content = main_content.decode('latin1')
+
+
+			# images = extract.extract_images(link)
+			# logging.info(images)
 
 			outing.put()
 
@@ -202,7 +206,7 @@ class UploadOuting(webapp2.RequestHandler):
 			message.to = proposed_participants
 			message.subject = str(originator) + " shared an article"
 			message.body = "Check out this article and share your thoughts: http://singlecalendar.appspot.com/outing/" + str(key)
-			message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
+			message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><p>' + str(main_content) + '</p><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
 			message.send()
 
 			# self.redirect('/outing/' + urllib.urlencode({'id': key}))	

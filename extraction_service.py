@@ -10,19 +10,48 @@ import jinja2
 import os
 
 class ExtractionService():
-	def extract_title(this, url):
-		logging.info(this)
-		logging.info(url)
+	def extract_content(this, url):
+		obj = {}
 		try:
 			f = urllib2.urlopen(url)
 			html_text = f.read()
+			logging.info(html_text)
+			title = this.extract_title(html_text)
+			publisher = this.extract_publisher(url)
+			obj['title'] = title
+			obj['publisher'] = publisher
+
+			main_content = this.extract_main_content(html_text)
+			obj['main_content'] = main_content
+
+			f.close()
+			return obj
+		except:
+			obj['title'] = "false"
+			obj['publisher'] = "false"
+			obj['main_content'] = "false"
+			return obj
+
+	def extract_main_content(this, html_text):
+		test_string = r"<.*?>(.*?)<.*?>"
+		p = re.compile(test_string, re.IGNORECASE)
+		content_list = p.findall(str(html_text))
+		if len(content_list) > 0:
+			for content in content_list:
+				if len(content) > 500:
+					# only send back first main content candidate for now
+					logging.info(content)
+					return str(content)
+		return "false"
+
+	def extract_title(this, html_text):
+		try:
 			test_string = r"<title>.*title>"
 			p = re.compile(test_string, re.IGNORECASE)
 			titles_list = p.findall(str(html_text))
 			if len(titles_list) > 0:
 				title = titles_list[0].replace("<title>", "")
 				title = title.replace("</title>", "")
-				f.close()
 				logging.info(str(title))
 				return title
 		except:
@@ -51,10 +80,8 @@ class ExtractionService():
 		except:
 			publisher = "false"
 
-	def extract_images(this, url):
+	def extract_images(this, html_text):
 		try:
-			f = urllib2.urlopen(url)
-			html_text = f.read()
 			test_string = r'<img .*src="(.*\.jpg)"'
 			test_string2 = r'<img .*src="(.*\.jpeg)"'
 			test_string3 = r'<img .*src="(.*\.png)"'
