@@ -201,13 +201,13 @@ class UploadOuting(webapp2.RequestHandler):
 			outing.put()
 
 			# prepare email and send
-			message = mail.EmailMessage()
-			message.sender= "Article Share <messages@singlecalendar.appspotmail.com>"
-			message.to = proposed_participants
-			message.subject = str(originator) + " shared an article"
-			message.body = "Check out this article and share your thoughts: http://singlecalendar.appspot.com/outing/" + str(key)
-			message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><p>' + str(main_content) + '</p><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
-			message.send()
+			# message = mail.EmailMessage()
+			# message.sender= "Article Share <messages@singlecalendar.appspotmail.com>"
+			# message.to = proposed_participants
+			# message.subject = str(originator) + " shared an article"
+			# message.body = "Check out this article and share your thoughts: http://singlecalendar.appspot.com/outing/" + str(key)
+			# message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><p>' + str(main_content) + '</p><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
+			# message.send()
 
 			# self.redirect('/outing/' + urllib.urlencode({'id': key}))	
 			self.redirect('/outing/' + str(key))
