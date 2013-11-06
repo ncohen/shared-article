@@ -101,7 +101,9 @@ class MainPage(webapp2.RequestHandler):
   		full_list.sort(key = lambda x: x.latest_activity, reverse=True)
 
   		ary2 = []
+  		ary3 = []
   		for item in full_list:
+  			ary3.append(item.outing_id)
   			try:
   				if item.latest_activity > current_user.latest_seen:
   					ary2.append(str(item.outing_id))
@@ -111,7 +113,29 @@ class MainPage(webapp2.RequestHandler):
   		ary = json.dumps(current_user.read_articles)
   		logging.info(len(ary2))
 
-  		template_values = { 
+
+  		# extract comments
+  		comments_query = Comment.all()
+  		comments_query.filter('parent_id IN', ary3)
+  		comments = comments_query.fetch(20)
+  		logging.info(len(comments))  		
+
+		comments_obj = {};
+		for comment in comments:
+			obj1 = {}
+			obj1['comment_text'] = comment.comment_text
+			obj1['commenter'] = comment.commenter.email()
+			# obj1['timestamp'] = comment.timestamp
+			obj1['utc_timestamp'] = comment.utc_timestamp
+			comments_obj[comment.parent_id]= obj1
+
+		logging.info(comments_obj)
+		comments_obj = json.dumps(comments_obj)
+		logging.info(comments_obj)
+
+		template_values = { 
+  		'comments_obj': comments_obj,
+  		'comments': comments,
   		'new_articles': ary2,
   		'read_articles': ary,
   		'current_user': current_user,
@@ -187,27 +211,32 @@ class UploadOuting(webapp2.RequestHandler):
 			# extract title of article
 			obj = extract.extract_content(link)
 			title = obj['title']
-			outing.article_title = str(title)
+			try:
+				outing.article_title = title.decode('latin1')
+
 			publisher = obj['publisher']
-			outing.publisher = str(publisher)
+			try:
+				outing.publisher = str(publisher)
+
 			main_content = obj['main_content']
 			logging.info(main_content)
-			outing.main_content = main_content.decode('latin1')
-
-
+			try:
+				outing.main_content = main_content.decode('latin1')
+				
 			# images = extract.extract_images(link)
 			# logging.info(images)
 
 			outing.put()
 
 			# prepare email and send
-			# message = mail.EmailMessage()
-			# message.sender= "Article Share <messages@singlecalendar.appspotmail.com>"
-			# message.to = proposed_participants
-			# message.subject = str(originator) + " shared an article"
-			# message.body = "Check out this article and share your thoughts: http://singlecalendar.appspot.com/outing/" + str(key)
+			message = mail.EmailMessage()
+			message.sender= "Article Share <messages@singlecalendar.appspotmail.com>"
+			message.to = proposed_participants
+			message.subject = str(originator) + " shared an article"
+			message.body = "Check out this article and share your thoughts: http://singlecalendar.appspot.com/outing/" + str(key)
 			# message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><p>' + str(main_content) + '</p><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
-			# message.send()
+			message.html = '<p>Check out this article and share your thoughts: '+ str(title) + '</p><br><a href="http://singlecalendar.appspot.com/outing/' + str(key) + '">read more</a>' 
+			message.send()
 
 			# self.redirect('/outing/' + urllib.urlencode({'id': key}))	
 			self.redirect('/outing/' + str(key))
