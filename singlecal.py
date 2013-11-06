@@ -213,16 +213,22 @@ class UploadOuting(webapp2.RequestHandler):
 			title = obj['title']
 			try:
 				outing.article_title = title.decode('latin1')
+			except:
+				outing.article_title = "false"
 
 			publisher = obj['publisher']
 			try:
 				outing.publisher = str(publisher)
+			except:
+				outing.publisher = "false"
 
 			main_content = obj['main_content']
 			logging.info(main_content)
 			try:
 				outing.main_content = main_content.decode('latin1')
-				
+			except:
+				outing.main_content = "false"
+
 			# images = extract.extract_images(link)
 			# logging.info(images)
 
