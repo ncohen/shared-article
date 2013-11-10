@@ -1,66 +1,39 @@
 body{
-	margin:25px;
+	margin: 0px;
+	font-size: 1.2em;
+	background-color: #98AFC7;
 }
 
-.venue_info {
-	margin:0px;
-	padding:0px;
-	border:0px;
+header {
+	background-color:black;
+	height:50px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
 }
 
-#venue_label, #rating_label, #address_label {
-	font-weight: bold;
+nav {
+	height:50px;
+	margin-bottom:0px; 
 }
 
-.weatherTop {
-	position:absolute;
-	background-color:white;
-	width:300px;
-}
-
-#weather {
-	position:absolute;
-
-}
-
-#date {
-	margin-bottom:5px;
-}
-
-#high {
-	margin-bottom:5px;
-	float:right;
-	margin-left:5px;
-}
-
-p.prediction {
-	text-align:left;
-	font-size:.75em;
-}
-
-.weatherItemPrecip {
-	float:right;
-	font-size:.8em;
-}
-
-
-.weatherItem {
-	margin-top:0px;
+.nav_item{
+	vertical-align:middle;
+	margin:50px;
+	color:white;
+	font-size: 1.2em;
 	margin-bottom:0px;
-	padding-top:0px;
-	padding-bottom:0px;
-	text-align:center;
-	font-size:.8em;
-	
-	
+
 }
 
-.dayWeather {
-	margin:10px;
-	margin-bottom:25px;
-	width:300px;
+#shares_container{
+	background-color:white;
+	width:600px; 
+	margin:0 auto;
 }
 
+#shares {	
+	margin-left:15px;
+}
 
 .image {
 	width:300px; 
@@ -111,3 +84,4 @@ p.prediction {
 #comment_input_text {
 	display: inherit;
 }
+
