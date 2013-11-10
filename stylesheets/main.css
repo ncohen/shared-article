@@ -49,8 +49,12 @@ nav {
 	font-weight: bold;
 }
 
-.feed_sharer, .shared_with, .share_comment {
+.feed_sharer, .shared_with, .share_comment, .share_source, .timestamp {
 	font-size: .9em;
+}
+
+.share_title{
+	font-weight: bold;
 }
 
 a:visited {
@@ -80,9 +84,12 @@ a {
 
 }
 
-#timestamp{
-	font-size:.9em;
-	
+.timestamp{
+	float:right;
+}
+
+.share_comment {
+	float:right;
 }
 
 #participants, .comments {
