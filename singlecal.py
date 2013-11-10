@@ -39,6 +39,7 @@ class ProposedOuting(db.Model):
 	proposed_date = db.DateTimeProperty()
 	timestamp = db.DateTimeProperty()
 	utc_timestamp = db.IntegerProperty()
+	string_timestamp = db.StringProperty()
 	latest_activity = db.DateTimeProperty()
 	comment_count = db.IntegerProperty()
 	main_content = db.TextProperty()
@@ -103,6 +104,11 @@ class MainPage(webapp2.RequestHandler):
   		ary2 = []
   		ary3 = []
   		for item in full_list:
+
+  			# create display version of utc timestamps
+  			s = datetime.datetime.fromtimestamp(item.utc_timestamp)
+  			item.string_timestamp = str(s)
+
   			ary3.append(item.outing_id)
   			try:
   				if item.latest_activity > current_user.latest_seen:
