@@ -35,7 +35,7 @@ class ProposedOuting(db.Model):
 	article_title = db.StringProperty()
 	publisher = db.StringProperty()
 	originator = db.UserProperty()
-	post_text = db.StringProperty()
+	post_text = db.TextProperty()
 	proposed_date = db.DateTimeProperty()
 	timestamp = db.DateTimeProperty()
 	utc_timestamp = db.IntegerProperty()
@@ -56,7 +56,7 @@ def user_key(user=None):
 	return db.Key.from_path('user', user or 'default_name')
 
 class Comment(db.Model):
-	comment_text = db.StringProperty()
+	comment_text = db.TextProperty()
 	commenter = db.UserProperty()
 	timestamp = db.DateTimeProperty()
 	utc_timestamp = db.IntegerProperty()
