@@ -38,6 +38,7 @@ nav {
 
 #shares {	
 	margin-left:15px;
+	margin-right:15px;
 }
 
 .image {
@@ -52,6 +53,8 @@ nav {
 .feed_sharer, .shared_with, .share_comment, .share_source, .timestamp {
 	font-size: .9em;
 }
+
+
 
 .share_title{
 	font-weight: bold;
