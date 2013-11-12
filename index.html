@@ -60,6 +60,7 @@
 		{% for share in shares %}
 			<div class="share" id="{{ share.outing_id|escape}}">
 				<p class="share_item share_title"><a class="share_item share_title" href="{{ share.link|escape }}">{{ share.article_title|escape }}</a></p>
+				<p class="share_item article_image"><img src="{{ share.article_image|escape }}"></p>
 				<p class="share_item timestamp"> {{ share.string_timestamp|escape }}</p>
 				<p class="share_item share_source"><a class="share_item share_source" href="{{ share.publisher|escape }}">{{ share.publisher|escape }}</a></p>
 				<p class="share_item feed_sharer"> {{ share.originator.nickname()|escape }}:  <span class="share_item"> {{ share.post_text|escape }}</span></p>

@@ -43,6 +43,7 @@ class ProposedOuting(db.Model):
 	latest_activity = db.DateTimeProperty()
 	comment_count = db.IntegerProperty()
 	main_content = db.TextProperty()
+	article_image = db.StringProperty()
 
 def outing_key(outing=None):
 	return db.Key.from_path('outing', outing or 'default_name')
@@ -235,8 +236,12 @@ class UploadOuting(webapp2.RequestHandler):
 			except:
 				outing.main_content = "false"
 
-			# images = extract.extract_images(link)
-			# logging.info(images)
+			image = obj['image']
+			logging.info("IMAGE!" + str(image))
+			try:
+				outing.article_image = str(image)
+			except:
+				outing.article_image = "false"
 
 			outing.put()
 

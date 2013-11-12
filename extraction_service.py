@@ -24,6 +24,9 @@ class ExtractionService():
 			main_content = this.extract_main_content(html_text)
 			obj['main_content'] = main_content
 
+			image = this.extract_images(html_text)
+			obj['image'] = image
+
 			f.close()
 			return obj
 		except:
@@ -101,7 +104,6 @@ class ExtractionService():
 				for title1 in titles_list:
 					logging.info(title1)
 				title = titles_list[0]
-				f.close()
 				logging.info(str(title))
 				return title
 		except:
