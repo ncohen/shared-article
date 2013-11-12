@@ -21,6 +21,9 @@ nav {
 	margin-bottom:0px; 
 }
 
+#content_div{
+	margin-left:15px;
+}
 .nav_item{
 	vertical-align:middle;
 	margin:50px;
