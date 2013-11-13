@@ -410,6 +410,19 @@ class ExtensionSignIn(webapp2.RequestHandler):
 		else:
 			self.redirect(users.create_login_url(self.request.uri))
 
+class ShortenMainContent(webapp2.RequestHandler):
+	def get(self):
+		shares_query = ProposedOuting.all()
+		shares = shares_query.fetch(100)
+		for share in shares:
+			try:
+				if len(share.main_content) > 501:
+					content = share.main_content[0:500]
+					share.main_content = content
+					share.put()
+			except:
+				logging.info("exception")
+
 app = webapp2.WSGIApplication([('/', MainPage),
 							('/create', CreateOuting),
 							('/create_new_outing', UploadOuting),
@@ -418,6 +431,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							('/login/(\S+)', Login),
 							('/migrate', CommentMigration),
 							('/extension', ExtensionSignIn),
+							('/shorten', ShortenMainContent),
 							('/activityreset', SetLatestActivity),
 							(LogSenderHandler.mapping())],
                               debug=True)
