@@ -68,10 +68,16 @@ $(function() {
 
 		<div id="link">
 			<p class="share_item"> {{ post_text|escape }} </p><br>
-			<p class="share_item"> {{ post.article_title }} </p>
-			<p class="share_item"> {{ post.publisher }} </p>
+			{% if post.article_title != 'false' %}
+					<p class="share_item"> {{ post.article_title }} </p>
+			{% endif %}
+			
+			{% if post.publisher != 'false' %}
+					<p class="share_item"> {{ post.publisher }} </p>
+			{% endif %}
+			
 			<p class="share_item">
-				<img src="{{ post.article_image }}">
+				<img width="100" height="100" src="{{ post.article_image }}">
 				{% if post.main_content != 'false' %}
 					<span class="share_item" id="main_content">{{ post.main_content }} </span>
 				{% endif %}

@@ -44,6 +44,7 @@ class ExtractionService():
 			for content in content_list:
 				if len(content) > 500:
 					# only send back first main content candidate for now
+					content = content[0:500]
 					logging.info(content)
 					return str(content)
 		return "false"

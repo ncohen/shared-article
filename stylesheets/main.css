@@ -60,11 +60,21 @@ nav {
 	font-weight: bold;
 }
 
-.feed_sharer, .shared_with, .share_comment, .share_source, .timestamp {
-	font-size: .9em;
+.article_image {
+	margin-right:5px;
 }
 
+.main_content {
+ 	overflow:hidden;
+}
 
+.main_content:after{
+  content:'...';
+}
+
+.feed_sharer, .shared_with, .share_comment, .share_source, .timestamp, .main_content {
+	font-size: .9em;
+}
 
 .share_title{
 	font-weight: bold;
