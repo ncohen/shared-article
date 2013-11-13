@@ -33,6 +33,7 @@ class ExtractionService():
 			obj['title'] = "false"
 			obj['publisher'] = "false"
 			obj['main_content'] = "false"
+			obj['image'] = "false"
 			return obj
 
 	def extract_main_content(this, html_text):

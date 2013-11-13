@@ -63,43 +63,51 @@ $(function() {
 	</nav>
 </header>
 <div id="content_div">
-	<h2>{{ originator|escape  }} shared an article with you!</h2>
+	<div id="content">
+		<h2>{{ originator|escape  }} shared an article with you!</h2>
 
-	<div id="link">
-		<p class="share_item"> {{ post_text|escape }} </p><br>
-		<p class="share_item"> {{ post.article_title }} </p>
-		<p class="share_item"> {{ post.publisher }} </p>
-		<p class="share_item"><a href={{ link|escape  }}>read article</a><p>
-	</div>
-
-
-	<div id="participants">
-	<h3>Shared with: </h3>
-	{% for participant in participants %}
-		<div class="participant">
-			<p> {{ participant|escape }}</p>
- 	    </div>
-    {% endfor %}
-	</div>
-
+		<div id="link">
+			<p class="share_item"> {{ post_text|escape }} </p><br>
+			<p class="share_item"> {{ post.article_title }} </p>
+			<p class="share_item"> {{ post.publisher }} </p>
+			<p class="share_item">
+				<img src="{{ post.article_image }}">
+				{% if post.main_content != 'false' %}
+					<span class="share_item" id="main_content">{{ post.main_content }} </span>
+				{% endif %}
+			</p>
+			<p class="share_item"><a href={{ link|escape  }}>read article</a><p>
+		</div>
 	
-	<div class="comments">
-	<h3>Comments: </h3>
-	{% for comment in comments %}
+
+		<div id="participants">
+		<h3>Shared with: </h3>
+		{% for participant in participants %}
+			<div class="participant">
+				<p> {{ participant|escape }}</p>
+	 	    </div>
+	    {% endfor %}
+		</div>
+
+		
 		<div class="comments">
-			<p class="commenter"> {{ comment.commenter|escape }} </p>
-			<p class="comment"> {{ comment.comment_text|escape }} </p>
-			<br>
- 	    </div>
-    {% endfor %}
+		<h3>Comments: </h3>
+		{% for comment in comments %}
+			<div class="comments">
+				<p class="commenter"> {{ comment.commenter|escape }} </p>
+				<p class="comment"> {{ comment.comment_text|escape }} </p>
+				<br>
+	 	    </div>
+	    {% endfor %}
 
-		<form action="/create_comment" id="form" enctype="multipart/form-data" method="post">
-			<label id="comment_input_label">Comment:</label>
-			<textarea name="comment" id="comment_input_text" rows="3" cols="50"></textarea>
-			<input name="parent_id" id="parent_id" type="hidden">
-			<div><input type="submit" class="comment_submit" id="submit" value="Send" /></div>
-	 	</form>
-	
+			<form action="/create_comment" id="form" enctype="multipart/form-data" method="post">
+				<label id="comment_input_label">Comment:</label>
+				<textarea name="comment" id="comment_input_text" rows="3" cols="50"></textarea>
+				<input name="parent_id" id="parent_id" type="hidden">
+				<div><input type="submit" class="comment_submit" id="submit" value="Send" /></div>
+		 	</form>
+		
+		</div>
 	</div>
 </div>
 	

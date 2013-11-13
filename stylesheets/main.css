@@ -22,8 +22,15 @@ nav {
 }
 
 #content_div{
+	background-color:white;
+	width:600px; 
+	margin:0 auto;
+}
+
+#content {
 	margin-left:15px;
 }
+
 .nav_item{
 	vertical-align:middle;
 	margin:50px;
