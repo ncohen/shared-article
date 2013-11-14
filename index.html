@@ -59,7 +59,11 @@
 		<h3>Feed</h3>
 		{% for share in shares %}
 			<div class="share" id="{{ share.outing_id|escape}}">
-				<p class="share_item share_title"><a class="share_item share_title" href="{{ share.link|escape }}">{{ share.article_title|escape }}</a></p>
+				{% if share.article_title != 'false' %}
+					<p class="share_item share_title"><a class="share_item share_title" href="{{ share.link|escape }}">{{ share.article_title|escape }}</a></p>
+				{% endif %}
+
+
 				<p class="share_item article_image">
 					<img align="left" class="share_item article_image" width="100" height="100" src="{{ share.article_image|escape }}">
 					{% if share.main_content != 'false' %}
