@@ -40,14 +40,31 @@ class ExtractionService():
 		test_string = r"<.*?>(.*?)<.*?>"
 		p = re.compile(test_string, re.IGNORECASE)
 		content_list = p.findall(str(html_text))
+
+		test_string2 = r"(\s)"
+		q = re.compile(test_string2, re.IGNORECASE)
+
 		if len(content_list) > 0:
+			cnt = 0
+			main_cont = ""
 			for content in content_list:
-				if len(content) > 500:
-					# only send back first main content candidate for now
-					content = content[0:500]
-					logging.info(content)
-					return str(content)
-		return "false"
+				cnt2 = len(content)
+				if cnt2 > cnt:
+					content_list = q.findall(str(content))
+
+					whitespace_ratio = (len(content) / len(content_list))
+					logging.info("WHITESPACE RATIO " + str(whitespace_ratio))
+					logging.info("LENGTH " + str(len(content)))
+					if whitespace_ratio < 50:
+						
+						main_cont = content[0:len(content)]
+						cnt = cnt2
+
+			if len(main_cont) > 100:
+				logging.info(main_cont)
+				return str(main_cont)
+		else:
+			return "false"
 
 	def extract_title(this, html_text):
 		try:
@@ -87,9 +104,9 @@ class ExtractionService():
 
 	def extract_images(this, html_text):
 		try:
-			test_string = r'<img .*src="(.*\.jpg)"'
-			test_string2 = r'<img .*src="(.*\.jpeg)"'
-			test_string3 = r'<img .*src="(.*\.png)"'
+			test_string = r'<img .*src="(.*\.jpg).*"'
+			test_string2 = r'<img .*src="(.*\.jpeg).*"'
+			test_string3 = r'<img .*src="(.*\.png).*"'
 			p = re.compile(test_string, re.IGNORECASE)
 			titles_list = p.findall(str(html_text))
 			
