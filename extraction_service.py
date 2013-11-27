@@ -16,19 +16,33 @@ class ExtractionService():
 			f = urllib2.urlopen(url)
 			html_text = f.read()
 			logging.info(html_text)
-			title = this.extract_title(html_text)
-			publisher = this.extract_publisher(url)
-			obj['title'] = title
-			obj['publisher'] = publisher
+			try:
+				title = this.extract_title(html_text)
+				obj['title'] = title
+			except:
+				obj['title'] = "false"
 
-			main_content = this.extract_main_content(html_text)
-			obj['main_content'] = main_content
+			try:
+				publisher = this.extract_publisher(url)
+				obj['publisher'] = publisher
+			except:
+				obj['publisher'] = "false"
 
-			image = this.extract_images(html_text)
-			obj['image'] = image
+			try:
+				main_content = this.extract_main_content(html_text)
+				obj['main_content'] = main_content
+			except:
+				obj['main_content'] = "false"
+
+			try:
+				image = this.extract_images(html_text)
+				obj['image'] = image
+			except:
+				obj['image'] = "false"
 
 			f.close()
 			return obj
+		
 		except:
 			obj['title'] = "false"
 			obj['publisher'] = "false"
@@ -44,26 +58,33 @@ class ExtractionService():
 		test_string2 = r"(\s)"
 		q = re.compile(test_string2, re.IGNORECASE)
 
+		main_cont = ""
+
 		if len(content_list) > 0:
 			cnt = 0
-			main_cont = ""
+			logging.info(len(content_list))
 			for content in content_list:
 				cnt2 = len(content)
 				if cnt2 > cnt:
-					content_list = q.findall(str(content))
+					content_list2 = q.findall(str(content))
 
-					whitespace_ratio = (len(content) / len(content_list))
-					logging.info("WHITESPACE RATIO " + str(whitespace_ratio))
-					logging.info("LENGTH " + str(len(content)))
-					if whitespace_ratio < 50:
-						
-						main_cont = content[0:len(content)]
-						cnt = cnt2
+					logging.info(str(len(content)) + " / " + str(len(content_list2)))
+					if len(content_list2) > 0:
+						whitespace_ratio = (len(content) / len(content_list2))
+						logging.info("WHITESPACE RATIO " + str(whitespace_ratio))
+						logging.info("LENGTH " + str(len(content)))
+						if whitespace_ratio < 10 and len(content) > 100:
+							logging.info(len(content))
+							logging.info(content)
+							main_cont = content[0:500]
+							cnt = cnt2
 
-			if len(main_cont) > 100:
+			logging.info("MAIN CONTENT " + str(main_cont))
+
+			if len(main_cont) > 99:
 				logging.info(main_cont)
 				return str(main_cont)
-		else:
+		if len(main_cont) <= 99:
 			return "false"
 
 	def extract_title(this, html_text):
