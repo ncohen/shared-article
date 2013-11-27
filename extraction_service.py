@@ -25,6 +25,9 @@ class ExtractionService():
 			try:
 				publisher = this.extract_publisher(url)
 				obj['publisher'] = publisher
+				logging.info(obj['title'][0])
+				if obj['title'][0] == "/":
+					obj['title'] = publisher + obj['title']
 			except:
 				obj['publisher'] = "false"
 

@@ -27,6 +27,11 @@ nav {
 	margin:0 auto;
 }
 
+#read_more{
+	font-weight: bold;
+	margin-top: 5px;
+}
+
 #content {
 	margin-left:15px;
 }
