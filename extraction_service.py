@@ -79,7 +79,7 @@ class ExtractionService():
 						if whitespace_ratio < 10 and len(content) > 100:
 							logging.info(len(content))
 							logging.info(content)
-							main_cont = content[0:500]
+							main_cont = content[0:250]
 							cnt = cnt2
 
 			logging.info("MAIN CONTENT " + str(main_cont))
@@ -99,6 +99,8 @@ class ExtractionService():
 				title = titles_list[0].replace("<title>", "")
 				title = title.replace("</title>", "")
 				logging.info(str(title))
+				string = title.split('|')
+				title = string[0]
 				return title
 		except:
 			return "false"
