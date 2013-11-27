@@ -98,6 +98,8 @@ class MainPage(webapp2.RequestHandler):
   		shared_query.filter('participants =', email)
   		shared_query.order('-timestamp')
   		shared = shared_query.fetch(10)
+  		logging.info(len(shared))
+  		logging.info(email)
 
   		full_list = shares + shared
   		full_list.sort(key = lambda x: x.latest_activity, reverse=True)
@@ -205,7 +207,12 @@ class UploadOuting(webapp2.RequestHandler):
 			outing.comment_count = 0
 			outing.link = link
 			outing.post_text = self.request.get('post_text')
-			outing.participants = proposed_participants.split(",")
+			participants = proposed_participants.split(",")
+			ary = []
+			for participant in participants:
+				participant = participant.rstrip()
+				ary.append(participant)
+				outing.participants = ary
 			outing.originator = originator
 
 			for participant in outing.participants:
