@@ -10,26 +10,28 @@ import jinja2
 import os
 
 class ExtractionService():
+	def get_size(this, url):
+		logging.info("get_size")
+		logging.info("get_size" + str(url))
+		fil = urllib2.urlopen(url)
+		bits = fil.read()
+		size = len(bits)
+		fil.close()
+		return size	
+
 	def extract_content(this, url):
 		obj = {}
 		try:
 			f = urllib2.urlopen(url)
 			html_text = f.read()
 			logging.info(html_text)
+			f.close()
+
 			try:
 				title = this.extract_title(html_text)
 				obj['title'] = title
 			except:
 				obj['title'] = "false"
-
-			try:
-				publisher = this.extract_publisher(url)
-				obj['publisher'] = publisher
-				logging.info(obj['title'][0])
-				if obj['title'][0] == "/":
-					obj['title'] = publisher + obj['title']
-			except:
-				obj['publisher'] = "false"
 
 			try:
 				main_content = this.extract_main_content(html_text)
@@ -43,7 +45,18 @@ class ExtractionService():
 			except:
 				obj['image'] = "false"
 
-			f.close()
+			try:
+				publisher = this.extract_publisher(url)
+				obj['publisher'] = publisher
+				logging.info("FIRST LETTER " + str(obj['image'][0]))
+				logging.info(str(obj['image']))
+				if obj['image'][0] == "/":
+					logging.info("Found the /")
+					obj['image'] = publisher + obj['image']
+					logging.info(obj['image'])
+			except:
+				obj['image'] = "false"
+
 			return obj
 		
 		except:
@@ -148,6 +161,13 @@ class ExtractionService():
 			if len(titles_list) > 0:
 				for title1 in titles_list:
 					logging.info(title1)
+					try:
+						logging.info("Trying...")
+						size = this.get_size(title1)
+						logging.info("SIZE: " + str(size))
+					except:
+						logging.info("SIZE DID NOT WORK")
+
 				title = titles_list[0]
 				logging.info(str(title))
 				return title
