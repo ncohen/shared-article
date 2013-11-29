@@ -157,6 +157,9 @@ class ExtractionService():
 
 			titles_list = titles_list + titles_list2 + titles_list3
 
+			title = ""
+			largest_image_count = 0
+
 			logging.info("images: " + str(len(titles_list)))
 			if len(titles_list) > 0:
 				for title1 in titles_list:
@@ -165,10 +168,11 @@ class ExtractionService():
 						logging.info("Trying...")
 						size = this.get_size(title1)
 						logging.info("SIZE: " + str(size))
+						if size > largest_image_count:
+							title = title1
 					except:
 						logging.info("SIZE DID NOT WORK")
 
-				title = titles_list[0]
 				logging.info(str(title))
 				return title
 		except:
