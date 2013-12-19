@@ -91,13 +91,13 @@ class MainPage(webapp2.RequestHandler):
   		shares_query = ProposedOuting.all()
   		shares_query.filter('originator =', user)
   		shares_query.order('-timestamp')
-  		shares = shares_query.fetch(50)
+  		shares = shares_query.fetch(25)
 
   		email = user.email()
   		shared_query = ProposedOuting.all()
   		shared_query.filter('participants =', email)
   		shared_query.order('-timestamp')
-  		shared = shared_query.fetch(50)
+  		shared = shared_query.fetch(25)
   		logging.info(len(shared))
   		logging.info(email)
 
