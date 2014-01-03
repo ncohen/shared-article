@@ -13,6 +13,7 @@ import calendar
 import email
 import json
 
+from google.appengine.api import channel
 from google.appengine.api import users
 from google.appengine.api import images
 from google.appengine.ext import blobstore
@@ -142,7 +143,13 @@ class MainPage(webapp2.RequestHandler):
 		comments_obj = json.dumps(comments_obj)
 		logging.info(comments_obj)
 
-		template_values = { 
+		# create token for web socket creation
+		token = channel.create_channel(user.user_id())
+		logging.info(token)
+
+		template_values = {
+		'user_id': user.user_id(),
+		'token': token,
   		'comments_obj': comments_obj,
   		'comments': comments,
   		'new_articles': ary2,
